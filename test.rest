@@ -1,0 +1,21 @@
+@base_url =http://127.0.0.1:8000
+@account=/api/account
+###
+POST {{base_url}}{{account}}/signup/
+Content-Type: application/json
+
+{
+    "username":"dan",
+    "email":"d@gmail.com",
+    "password": "1234P"
+}
+
+###
+POST {{base_url}}{{account}}/login/
+Content-Type: application/json
+
+
+{
+    "username":"dan",
+    "password":"1234P"
+}
