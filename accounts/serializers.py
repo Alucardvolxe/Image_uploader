@@ -52,3 +52,19 @@ class SignupSerializer(serializers.ModelSerializer):
             )#
         return value
     
+
+class user_update_serializer(serializers.ModelSerializer):
+    
+    class meta:
+        model = User
+        fields = ("username","password","email")
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop("password",None)
+        for attr, value in validated_data.items():
+            setattr(instance,attr,value)
+        if password:
+            instance.set_password(password)
+
+        instance.save()
+        return instance

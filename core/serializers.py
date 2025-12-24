@@ -5,14 +5,24 @@ from .models import Image,Album
 
 
 class ImageSerializers(serializers.ModelSerializer):
+    album = serializers.CharField(write_only=True)
     album_name = serializers.CharField(
         source = 'album.name',
         read_only =True
     )
+    user = serializers.ReadOnlyField(source = "user.username")
     class Meta:
-        models= Image
-        fields = ("title","url","description","visibilty","album_name")
+        model = Image
+        fields = ("title","url","description","visibilty","album","album_name","user")
 
+    def create(self, validated_data):
+        album_name = validated_data.pop("album")
+        album,created= Album.objects.get_or_create(name=album_name)
+        image= Image.objects.create(
+            album=album,
+            **validated_data
+        )
+        return image
 
 
 
@@ -24,9 +34,3 @@ class AlbumSerializers(serializers.ModelSerializer):
         fields = ('name',"images")
 
         
-    def validate_name(self,value):
-        if Album.objects.filter(name=value).exists():
-            raise serializers.ValidationError(
-                {"Error":"An album with this name already exists"}
-            )
-        return value

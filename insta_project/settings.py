@@ -11,7 +11,10 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -134,3 +137,9 @@ REST_FRAMEWORK = {
     )
 
 }
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+CLOUDINARY_STORAGE = { 'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'), 
+                      'API_KEY': os.getenv('CLOUDINARY_API_KEY'), 
+                      'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'), }
+MEDIA_URL = '/media/'

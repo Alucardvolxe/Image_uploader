@@ -8,6 +8,10 @@ django = "*"
 djangorestframework = "*"
 django-filter = "*"
 djangorestframework-simplejwt = "*"
+cloudinary = "*"
+dotenv = "*"
+django-cloudinary-storage = "*"
+pillow = "*"
 
 [dev-packages]
 

@@ -2,12 +2,14 @@ from django.shortcuts import render
 
 # Create your views here.
 from .models import User
-from .serializers import UserSerializer,LoginSerializer,SignupSerializer
+from .serializers import UserSerializer,LoginSerializer,SignupSerializer,user_update_serializer
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken,AccessToken
+from core.permissions import isOwnerOrAdmin
+
 
 class Signup(generics.CreateAPIView):
     queryset = User.objects.all()
@@ -41,6 +43,18 @@ class Login(generics.GenericAPIView):
                 {'detail':'user not found'}
             )
         
+class UserDetailUpdateView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    permission_classes = [isOwnerOrAdmin]
 
+    def get_object(self):
+        return self.request.user
+    
+    
+    def get_serializer(self, *args, **kwargs):
+        if self.request.user == self.get_object():
+            return user_update_serializer
+
+        return UserSerializer 
             
         
