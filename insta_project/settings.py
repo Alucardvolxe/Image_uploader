@@ -45,10 +45,18 @@ INSTALLED_APPS = [
     'core',
     'accounts',
     'rest_framework',
-    'rest_framework_simplejwt'
+    'rest_framework_simplejwt',
+    'django_filters',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=7),    
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -134,8 +142,11 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
        
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
+    ),
 
+     'DEFAULT_FILTER_BACKENDS': (
+        'django_filters.rest_framework.DjangoFilterBackend',)
+        
 }
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
@@ -143,3 +154,14 @@ CLOUDINARY_STORAGE = { 'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME'),
                       'API_KEY': os.getenv('CLOUDINARY_API_KEY'), 
                       'API_SECRET': os.getenv('CLOUDINARY_API_SECRET'), }
 MEDIA_URL = '/media/'
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}

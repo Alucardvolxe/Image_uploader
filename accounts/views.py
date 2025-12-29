@@ -43,14 +43,14 @@ class Login(generics.GenericAPIView):
                 {'detail':'user not found'}
             )
         
-class UserDetailUpdateView(generics.RetrieveAPIView):
+class UserDetailUpdateView(generics.RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     permission_classes = [isOwnerOrAdmin]
 
     def get_object(self):
         return self.request.user
     
-    
+
     def get_serializer(self, *args, **kwargs):
         if self.request.user == self.get_object():
             return user_update_serializer

@@ -6,12 +6,14 @@ name = "pypi"
 [packages]
 django = "*"
 djangorestframework = "*"
-django-filter = "*"
 djangorestframework-simplejwt = "*"
 cloudinary = "*"
 dotenv = "*"
 django-cloudinary-storage = "*"
 pillow = "*"
+redis = {extras = ["hiredis"], version = "*"}
+django-redis = "*"
+django-filter = "*"
 
 [dev-packages]
 

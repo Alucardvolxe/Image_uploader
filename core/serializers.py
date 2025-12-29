@@ -11,13 +11,16 @@ class ImageSerializers(serializers.ModelSerializer):
         read_only =True
     )
     user = serializers.ReadOnlyField(source = "user.username")
+   
     class Meta:
         model = Image
-        fields = ("title","url","description","visibilty","album","album_name","user")
+        fields = ("id","title","photo","description","visibilty","album","album_name","user")
 
+    
+        
     def create(self, validated_data):
         album_name = validated_data.pop("album")
-        album,created= Album.objects.get_or_create(name=album_name)
+        album,created= Album.objects.get_or_create(name=album_name, defaults={'user':self.context['request'].user})
         image= Image.objects.create(
             album=album,
             **validated_data
