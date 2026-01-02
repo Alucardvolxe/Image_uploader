@@ -49,7 +49,7 @@ class SignupSerializer(serializers.ModelSerializer):
         if User.objects.filter(email=value).exists():
             raise serializers.ValidationError(
                 {'error':'email already exists'}
-            )#
+            )
         return value
     
 

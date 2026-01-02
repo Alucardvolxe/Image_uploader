@@ -145,7 +145,18 @@ REST_FRAMEWORK = {
     ),
 
      'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',)
+        'django_filters.rest_framework.DjangoFilterBackend',),
+
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "core.throttles.BurstRateThrottle",
+        "core.throttles.SustainedRateThrottle"
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "2/minute",      
+        'burst':'10/minute',
+        'sustained':'15/hour',      
+    }
         
 }
 
