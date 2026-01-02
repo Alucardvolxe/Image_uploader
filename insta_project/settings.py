@@ -155,7 +155,7 @@ REST_FRAMEWORK = {
     "DEFAULT_THROTTLE_RATES": {
         "anon": "2/minute",      
         'burst':'10/minute',
-        'sustained':'15/hour',      
+        'sustained':'30/hour',      
     }
         
 }
@@ -175,4 +175,47 @@ CACHES = {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
     }
+}
+
+import os
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False, 
+
+    "formatters": {
+        "simple": {
+            "format": "[{levelname}] {message}",
+            "style": "{",
+        },
+        "detailed": {
+            "format": "[{asctime}] {levelname} {name} {message}",
+            "style": "{",
+        },
+    },
+
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "simple",
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": os.path.join(BASE_DIR, "django.log"),
+            "formatter": "detailed",
+        },
+    },
+
+    "loggers": {
+        "django": {
+            "handlers": ["console", "file"],
+            "level": "INFO",  
+            "propagate": True,
+        },
+        "myapp": { 
+            "handlers": ["console", "file"],
+            "level": "DEBUG",
+            "propagate": False,
+        },
+    },
 }
