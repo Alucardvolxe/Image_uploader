@@ -6,8 +6,9 @@ from django.core.cache import cache
 
 @receiver([post_save,post_delete], sender=Image)
 def invalidate_Image_cache(sender,instance,**kwargs):
-    """Invalidate Image list chache when an image is uploaded updated or deleted"""
-    print("clearing product cache")
+
+    print("clearing image cache")
 
 
-    cache.delete_pattern('*image_list','*album_list')
+    version = cache.get("image_list_version", 1)
+    cache.set("image_list_version", version + 1)
