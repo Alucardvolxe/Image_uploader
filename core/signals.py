@@ -8,7 +8,7 @@ from django.core.cache import cache
 def invalidate_Image_cache(sender,instance,**kwargs):
 
     print("clearing image cache")
-
+    
 
     version = cache.get("image_list_version", 1)
     cache.set("image_list_version", version + 1)

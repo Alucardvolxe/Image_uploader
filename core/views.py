@@ -20,10 +20,7 @@ class AlbumViewSet(viewsets.ModelViewSet):
     permission_classes = [isOwnerOrAdmin, IsAuthenticated]
     filter_backends =[DjangoFilterBackend]
     filterset_class = AlbumFilterSet
-    @method_decorator(cache_page(60 * 5 , key_prefix="album_list"))
-    def list(self, request, *args, **kwargs):
-        return super().list(request, *args, **kwargs)
-    
+   
     
 
 
@@ -61,10 +58,11 @@ class ImageViewset(viewsets.ModelViewSet):
         time.sleep(2)
 
         user = self.request.user
-        
         if user.is_staff:
-            return Image.objects.all()
+            return Image.objects.filter(visibilty="Public")
         
+        
+        print ("HITTING DATABASE")
         return Image.objects.filter(Q(visibilty = "Public")|Q(visibilty = "Private", user = user))
     
     def perform_create(self, serializer):
