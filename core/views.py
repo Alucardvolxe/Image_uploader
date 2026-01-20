@@ -59,10 +59,10 @@ class ImageViewset(viewsets.ModelViewSet):
 
         user = self.request.user
         if user.is_staff:
-            return Image.objects.filter(visibilty="Public")
+            return Image.objects.filter(Q(visibilty="Public")|Q(visibilty="Private"), user=user)
         
         
-        print ("HITTING DATABASE")
+        
         return Image.objects.filter(Q(visibilty = "Public")|Q(visibilty = "Private", user = user))
     
     def perform_create(self, serializer):
