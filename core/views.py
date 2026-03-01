@@ -22,7 +22,8 @@ class AlbumViewSet(viewsets.ModelViewSet):
     filterset_class = AlbumFilterSet
    
     
-
+    def get_queryset(self):
+        alubms = Album.i
 
 
 
