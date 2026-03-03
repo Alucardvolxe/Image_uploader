@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'django_filters',
+    'drf_spectacular',
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -156,7 +157,8 @@ REST_FRAMEWORK = {
         "anon": "2/minute",      
         'burst':'10/minute',
         'sustained':'30/hour',      
-    }
+    },
+    'DEFAULT_SCHEMA_CLASS':'drf_spectacular.openapi.AutoSchema'
         
 }
 
@@ -218,4 +220,8 @@ LOGGING = {
             "propagate": False,
         },
     },
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Image vault api',
 }

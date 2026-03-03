@@ -55,7 +55,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
 class user_update_serializer(serializers.ModelSerializer):
     
-    class meta:
+    class Meta:
         model = User
         fields = ("username","password","email")
 

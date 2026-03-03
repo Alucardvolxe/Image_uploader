@@ -1,0 +1,688 @@
+openapi: 3.0.3
+info:
+  title: Image vault api
+  version: 0.0.0
+paths:
+  /api/Images/:
+    get:
+      operationId: Images_list
+      parameters:
+      - in: query
+        name: title
+        schema:
+          type: string
+      - in: query
+        name: title__iexact
+        schema:
+          type: string
+      - in: query
+        name: visibilty
+        schema:
+          type: string
+          enum:
+          - Private
+          - Public
+        description: |-
+          * `Public` - Public
+          * `Private` - Private
+      tags:
+      - Images
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageSerializers'
+          description: ''
+    post:
+      operationId: Images_create
+      tags:
+      - Images
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ImageSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImageSerializers'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageSerializers'
+          description: ''
+  /api/Images/{id}/:
+    get:
+      operationId: Images_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - Images
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageSerializers'
+          description: ''
+    put:
+      operationId: Images_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - Images
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImageSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ImageSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ImageSerializers'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageSerializers'
+          description: ''
+    patch:
+      operationId: Images_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - Images
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedImageSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedImageSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedImageSerializers'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageSerializers'
+          description: ''
+    delete:
+      operationId: Images_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this image.
+        required: true
+      tags:
+      - Images
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/account/login/:
+    post:
+      operationId: account_login_create
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+          description: ''
+  /api/account/me/:
+    get:
+      operationId: account_me_retrieve
+      tags:
+      - account
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_update_serializer'
+          description: ''
+    put:
+      operationId: account_me_update
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/user_update_serializer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/user_update_serializer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/user_update_serializer'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_update_serializer'
+          description: ''
+    patch:
+      operationId: account_me_partial_update
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Patcheduser_update_serializer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Patcheduser_update_serializer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Patcheduser_update_serializer'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/user_update_serializer'
+          description: ''
+    delete:
+      operationId: account_me_destroy
+      tags:
+      - account
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/account/signup/:
+    post:
+      operationId: account_signup_create
+      tags:
+      - account
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Signup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Signup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Signup'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Signup'
+          description: ''
+  /api/albums/:
+    get:
+      operationId: albums_list
+      parameters:
+      - in: query
+        name: name__iexact
+        schema:
+          type: string
+      tags:
+      - albums
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AlbumSerializers'
+          description: ''
+    post:
+      operationId: albums_create
+      tags:
+      - albums
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlbumSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AlbumSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AlbumSerializers'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlbumSerializers'
+          description: ''
+  /api/albums/{id}/:
+    get:
+      operationId: albums_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this album.
+        required: true
+      tags:
+      - albums
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlbumSerializers'
+          description: ''
+    put:
+      operationId: albums_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this album.
+        required: true
+      tags:
+      - albums
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlbumSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AlbumSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AlbumSerializers'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlbumSerializers'
+          description: ''
+    patch:
+      operationId: albums_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this album.
+        required: true
+      tags:
+      - albums
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAlbumSerializers'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAlbumSerializers'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAlbumSerializers'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlbumSerializers'
+          description: ''
+    delete:
+      operationId: albums_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this album.
+        required: true
+      tags:
+      - albums
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    AlbumSerializers:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageSerializers'
+          readOnly: true
+      required:
+      - images
+      - name
+    ImageSerializers:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        photo:
+          type: string
+          format: uri
+        description:
+          type: string
+        visibilty:
+          $ref: '#/components/schemas/VisibiltyEnum'
+        album:
+          type: string
+          writeOnly: true
+        album_name:
+          type: string
+          readOnly: true
+        user:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+      required:
+      - album
+      - album_name
+      - description
+      - id
+      - photo
+      - title
+      - user
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    PatchedAlbumSerializers:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 200
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ImageSerializers'
+          readOnly: true
+    PatchedImageSerializers:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        photo:
+          type: string
+          format: uri
+        description:
+          type: string
+        visibilty:
+          $ref: '#/components/schemas/VisibiltyEnum'
+        album:
+          type: string
+          writeOnly: true
+        album_name:
+          type: string
+          readOnly: true
+        user:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          readOnly: true
+    Patcheduser_update_serializer:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          maxLength: 128
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+    Signup:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - password
+      - username
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    VisibiltyEnum:
+      enum:
+      - Public
+      - Private
+      type: string
+      description: |-
+        * `Public` - Public
+        * `Private` - Private
+    user_update_serializer:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        password:
+          type: string
+          maxLength: 128
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+      required:
+      - password
+      - username
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

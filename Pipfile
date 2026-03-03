@@ -15,6 +15,7 @@ redis = {extras = ["hiredis"], version = "*"}
 django-redis = "*"
 django-filter = "*"
 django-allauth = {extras = ["socialaccount"], version = "*"}
+drf-spectacular = "*"
 
 [dev-packages]
 
