@@ -16,6 +16,7 @@ django-redis = "*"
 django-filter = "*"
 django-allauth = {extras = ["socialaccount"], version = "*"}
 drf-spectacular = "*"
+mysqlclient = "*"
 
 [dev-packages]
 
