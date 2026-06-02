@@ -56,5 +56,4 @@ class UserDetailUpdateView(generics.RetrieveUpdateDestroyAPIView):
             return user_update_serializer
 
         return UserSerializer 
-            
-        
+    
