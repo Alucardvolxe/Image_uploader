@@ -3,4 +3,4 @@ from .models import Album,Image
 # Register your models here.
 
 admin.site.register(Album)
-admin.site.register(Image)
+admin.site.register(Image )
